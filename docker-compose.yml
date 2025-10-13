@@ -1,0 +1,87 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:5.7
+    container_name: wp_db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass123
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wp_user
+      MYSQL_PASSWORD: wp_pass123
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - wp-net
+    restart: unless-stopped
+
+  wordpress1:
+    image: wordpress:5.4.2-php7.2-apache
+    container_name: wordpress1
+    depends_on:
+      - db
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wp_user
+      WORDPRESS_DB_PASSWORD: wp_pass123
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - ./wp_shared:/var/www/html # compartilhamento com host
+    networks:
+      - wp-net
+    restart: unless-stopped
+
+  wordpress2:
+    image: wordpress:5.4.2-php7.2-apache
+    container_name: wordpress2
+    depends_on:
+      - db
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wp_user
+      WORDPRESS_DB_PASSWORD: wp_pass123
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - ./wp_shared:/var/www/html
+    networks:
+      - wp-net
+    restart: unless-stopped
+
+  wordpress3:
+    image: wordpress:5.4.2-php7.2-apache
+    container_name: wordpress3
+    depends_on:
+      - db
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wp_user
+      WORDPRESS_DB_PASSWORD: wp_pass123
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - ./wp_shared:/var/www/html
+    networks:
+      - wp-net
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:1.19.0
+    container_name: wp_nginx
+    ports:
+      - "80:80" # expõe apenas o Nginx para o host
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./wp_shared:/usr/share/nginx/html:ro
+    networks:
+      - wp-net
+    depends_on:
+      - wordpress1
+      - wordpress2
+      - wordpress3
+    restart: unless-stopped
+
+volumes:
+  db_data:
+
+networks:
+  wp-net:
+    driver: bridge
