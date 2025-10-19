@@ -49,3 +49,23 @@ Note that, based on the previously listed IPs, the `X-Upstream` header will chan
 ```
 curl -I http://localhost/
 ```
+
+# Evidence of Execution
+
+The following image shows the result of the docker-compose ps command, confirming that 3 WordPress containers, 1 MySQL, and 1 Nginx service are running as expected.
+
+![Docker ps](./images/image_1.png)
+
+---
+
+This image displays the output of the docker inspect command, where we can see the individual IP addresses assigned to each WordPress container.
+These IPs are used by the load balancer (Nginx) to distribute requests.
+
+![Containers running](./images/image_2.png)
+
+---
+
+The image below shows the results of consecutive executions of the curl -I http://localhost/ command.
+Each response includes a different X-Upstream header value, demonstrating that the load balancing mechanism is successfully rotating between WordPress instances (Round Robin strategy).
+
+![Round Robin behavior](./images/image_3.png)
