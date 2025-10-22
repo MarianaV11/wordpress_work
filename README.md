@@ -88,4 +88,4 @@ Each response includes a different X-Upstream header value, demonstrating that t
 
 ## Number of total users to simulate = 350; Spawn rate = 100
 
-![graph_350](./images/req_por_seg_350.jpeg)
+![graph_350](./images/350.jpeg)
