@@ -85,14 +85,54 @@ services:
     volumes:
       - ./locust:/locust
     ports:
-      - "8089:8089"
+      - "8090:8089"
     command: >
       locust -f /locust/locustfile.py
-            --host=http://wp_nginx
+            --host=http://wordpress3
             --users=50
             --spawn-rate=10
     environment:
-      - ATTACKED_HOST=http://wp_nginx
+      - ATTACKED_HOST=http://wordpress3
+    depends_on:
+      - nginx
+    networks:
+      - wp-net
+    restart: unless-stopped
+
+  locust2:
+    image: grubykarol/locust
+    container_name: locust_test2
+    volumes:
+      - ./locust:/locust
+    ports:
+      - "8091:8089"
+    command: >
+      locust -f /locust/locustfile.py
+            --host=http://wordpress2
+            --users=50
+            --spawn-rate=10
+    environment:
+      - ATTACKED_HOST=http://wordpress2
+    depends_on:
+      - nginx
+    networks:
+      - wp-net
+    restart: unless-stopped
+
+  locust1:
+    image: grubykarol/locust
+    container_name: locust_test1
+    volumes:
+      - ./locust:/locust
+    ports:
+      - "8092:8089"
+    command: >
+      locust -f /locust/locustfile.py
+            --host=http://wordpress1
+            --users=50
+            --spawn-rate=10
+    environment:
+      - ATTACKED_HOST=http://wordpress1
     depends_on:
       - nginx
     networks:

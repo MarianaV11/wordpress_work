@@ -1,4 +1,4 @@
-# Project Setup
+# Project Setup (Trabalho 2)
 
 1. Download the images for MySQL and WordPress
 
@@ -32,7 +32,7 @@ http://localhost/
 
 Set up your WordPress account.
 
-# To List the IPs of the WordPress Instances
+# To List the IPs of the WordPress Instances (Trabalho 2)
 
 ```
 docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' wordpress1
@@ -40,7 +40,7 @@ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' wor
 docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' wordpress3
 ```
 
-# Test
+# Test (Trabalho 2)
 
 Run the command below and observe the **round-robin behavior** every time you create or refresh a page in WordPress.
 
@@ -50,7 +50,7 @@ Note that, based on the previously listed IPs, the `X-Upstream` header will chan
 curl -I http://localhost/
 ```
 
-# Evidence of Execution
+# Evidence of Execution (Trabalho 2)
 
 The following image shows the result of the docker-compose ps command, confirming that 3 WordPress containers, 1 MySQL, and 1 Nginx service are running as expected.
 
@@ -69,3 +69,23 @@ The image below shows the results of consecutive executions of the curl -I http:
 Each response includes a different X-Upstream header value, demonstrating that the load balancing mechanism is successfully rotating between WordPress instances (Round Robin strategy).
 
 ![Round Robin behavior](./images/image_3.png)
+
+---
+
+# Wordpress Instances (Trabalho 3)
+
+## Number of total users to simulate = 500; Spawn rate = 100
+
+![graph_500](./images/req_por_seg_500.jpeg)
+
+![user_500](./images/response_to_user.jpeg)
+
+## Number of total users to simulate = 400; Spawn rate = 100
+
+![graph_400](./images/req_por_seg_400.jpeg)
+
+![user_400](./images/response_to_user2.jpeg)
+
+## Number of total users to simulate = 350; Spawn rate = 100
+
+![graph_350](./images/req_por_seg_350.jpeg)
