@@ -1,4 +1,6 @@
-# Project Setup (Trabalho 2)
+# Docker + Wordpress Instances (Trabalho 2)
+
+## Project Setup
 
 1. Download the images for MySQL and WordPress
 
@@ -32,7 +34,7 @@ http://localhost/
 
 Set up your WordPress account.
 
-# To List the IPs of the WordPress Instances (Trabalho 2)
+## To List the IPs of the WordPress Instances (Trabalho 2)
 
 ```
 docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' wordpress1
@@ -40,7 +42,7 @@ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' wor
 docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' wordpress3
 ```
 
-# Test (Trabalho 2)
+## Test (Trabalho 2)
 
 Run the command below and observe the **round-robin behavior** every time you create or refresh a page in WordPress.
 
@@ -50,7 +52,7 @@ Note that, based on the previously listed IPs, the `X-Upstream` header will chan
 curl -I http://localhost/
 ```
 
-# Evidence of Execution (Trabalho 2)
+## Evidence of Execution (Trabalho 2)
 
 The following image shows the result of the docker-compose ps command, confirming that 3 WordPress containers, 1 MySQL, and 1 Nginx service are running as expected.
 
@@ -74,18 +76,14 @@ Each response includes a different X-Upstream header value, demonstrating that t
 
 # Wordpress Instances (Trabalho 3)
 
-## Number of total users to simulate = 500; Spawn rate = 100
+## Response Time x Number of Users
 
-![graph_500](./images/req_por_seg_500.jpeg)
+The first chart illustrates the relationship between user load and Response Time, measured in $\mu s$ (microseconds), although the magnitude of $10^{16}$ is unusually large for this unit. The WORDPRESS_1 configuration consistently shows the highest latency, peaking at approximately $3.8 \times 10^{16}$ $\mu s$ under 350 and 400 users, indicating it is the least responsive and provides the worst user experience regardless of the load level tested.
 
-![user_500](./images/response_to_user.jpeg)
+![graph_2](./images/graph_2.jpeg)
 
-## Number of total users to simulate = 400; Spawn rate = 100
+## Number of Instances x Requests per Second
 
-![graph_400](./images/req_por_seg_400.jpeg)
+The second chart, measuring Requests per Second ($\mu s$), showcases system throughput under various instance counts. Here, the WORDPRESS_1 configuration demonstrates a clear and substantial advantage, achieving the highest throughput across all instance counts and peaking around $5.2 \times 10^{16}$ $\mu s$ with 400 instances. This suggests that WORDPRESS_1 is optimized for processing the maximum volume of total requests.
 
-![user_400](./images/response_to_user2.jpeg)
-
-## Number of total users to simulate = 350; Spawn rate = 100
-
-![graph_350](./images/req_por_seg_350.jpeg)
+![grap_2](./images/graph_1.jpeg)
